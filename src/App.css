@@ -1,7 +1,7 @@
 #root {
-  max-width: 1200px;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 1.5rem;
+  padding: clamp(1rem, 2.4vw, 2rem);
 }
 
 .page {
@@ -13,38 +13,52 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  color: #fff;
+  gap: 0.35rem;
+  padding: 1.1rem 1.1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--panel), transparent 0%),
+    color-mix(in oklab, var(--panel), transparent 14%)
+  );
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
 }
 
 .title {
   margin: 0;
-  font-size: 2rem;
-  line-height: 1.1;
+  font-size: clamp(1.55rem, 2.4vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
   margin: 0;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--muted);
 }
 
 .header a {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--accent);
   text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--accent), transparent 55%);
 }
 
 .header a:hover {
-  color: #ffffff;
+  text-decoration-color: color-mix(in oklab, var(--accent), transparent 30%);
 }
 
 .header code {
-  color: rgba(255, 255, 255, 0.92);
+  color: color-mix(in oklab, var(--text), var(--accent) 25%);
 }
 
 .card {
-  border: 1px solid rgba(127, 127, 127, 0.25);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
   padding: 1rem;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
 }
 
 .controls {
@@ -53,6 +67,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
 }
 
 .controlGroup {
@@ -66,13 +86,17 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .select {
-  padding: 0.45rem 0.6rem;
-  border-radius: 8px;
-  border: 1px solid rgba(127, 127, 127, 0.35);
-  background: transparent;
+  padding: 0.55rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: color-mix(in oklab, var(--panel-solid), transparent 15%);
+  color: var(--text);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
 }
 
 .pager {
@@ -83,19 +107,47 @@
 }
 
 .button {
-  padding: 0.5rem 0.75rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: color-mix(in oklab, var(--panel-solid), transparent 15%);
+  color: var(--text);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    background-color 120ms ease;
+  cursor: pointer;
+}
+
+.button:hover {
+  border-color: color-mix(in oklab, var(--accent), var(--border-strong) 40%);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .muted {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--muted);
 }
 
 .muted strong {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
 }
 
 .error {
-  border-color: rgba(255, 0, 0, 0.35);
+  border-color: color-mix(in oklab, var(--danger), var(--border) 55%);
 }
 
 .errorTitle {
@@ -106,25 +158,30 @@
 .errorText {
   margin: 0;
   padding: 0.75rem;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--panel-solid), transparent 30%);
   overflow: auto;
   max-height: 220px;
 }
 
 .tableWrap {
-  border: 1px solid rgba(127, 127, 127, 0.25);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
   overflow: auto;
   max-height: 70vh;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
 }
 
 .chartWrap {
-  border: 1px solid rgba(127, 127, 127, 0.25);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
   overflow: hidden;
   padding: 0.75rem;
   height: 360px;
+  background: var(--panel);
+  box-shadow: var(--shadow-sm);
 }
 
 .chart {
@@ -134,22 +191,22 @@
 }
 
 .chartGrid {
-  stroke: rgba(127, 127, 127, 0.25);
+  stroke: color-mix(in oklab, var(--border), transparent 10%);
   stroke-width: 1;
 }
 
 .chartAxis {
-  stroke: rgba(127, 127, 127, 0.55);
+  stroke: color-mix(in oklab, var(--border-strong), transparent 0%);
   stroke-width: 1.5;
 }
 
 .chartAxisLabel {
-  fill: rgba(255, 255, 255, 0.75);
+  fill: color-mix(in oklab, var(--muted), transparent 0%);
   font-size: 12px;
 }
 
 .chartAxisTitle {
-  fill: rgba(255, 255, 255, 0.85);
+  fill: color-mix(in oklab, var(--text), transparent 0%);
   font-size: 13px;
   font-weight: 600;
 }
@@ -157,17 +214,17 @@
 .chartXLabel {
   /* slight extra readability on busy charts */
   paint-order: stroke;
-  stroke: rgba(0, 0, 0, 0.35);
+  stroke: var(--chart-text-stroke);
   stroke-width: 2px;
 }
 
 .chartLine {
-  stroke: #646cff;
+  stroke: var(--accent);
   stroke-width: 2.5;
 }
 
 .chartPoint {
-  fill: #646cff;
+  fill: var(--accent);
   stroke: rgba(0, 0, 0, 0.25);
   stroke-width: 1;
 }
@@ -184,7 +241,7 @@
 
 .table th,
 .table td {
-  border-bottom: 1px solid rgba(127, 127, 127, 0.2);
+  border-bottom: 1px solid var(--border);
   padding: 0.5rem 0.6rem;
   text-align: left;
   vertical-align: top;
@@ -196,7 +253,9 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  background: color-mix(in oklab, var(--panel-solid), transparent 10%);
+  backdrop-filter: blur(10px);
 }
 
 .voteCard {
@@ -214,6 +273,7 @@
 .voteTitle {
   margin: 0;
   font-size: 1.25rem;
+  letter-spacing: -0.01em;
 }
 
 .errorNote {
@@ -228,9 +288,10 @@
 }
 
 .voteStat {
-  border: 1px solid rgba(127, 127, 127, 0.2);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
   padding: 0.75rem;
+  background: color-mix(in oklab, var(--panel-solid), transparent 25%);
 }
 
 .voteStatLabel {
@@ -242,6 +303,7 @@
   font-size: 1.6rem;
   line-height: 1.1;
   margin-bottom: 0.25rem;
+  letter-spacing: -0.02em;
 }
 
 .voteButtons {
@@ -257,26 +319,36 @@
 }
 
 .voteFor {
-  border-color: rgba(80, 200, 120, 0.55);
+  border-color: color-mix(in oklab, var(--success), var(--border-strong) 60%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--success), transparent 82%),
+    color-mix(in oklab, var(--panel-solid), transparent 10%)
+  );
 }
 
 .voteAgainst {
-  border-color: rgba(255, 90, 90, 0.55);
+  border-color: color-mix(in oklab, var(--danger), var(--border-strong) 60%);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--danger), transparent 86%),
+    color-mix(in oklab, var(--panel-solid), transparent 10%)
+  );
 }
 
 .siteFooter {
   margin-top: 0.5rem;
   text-align: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--muted);
 }
 
 .siteFooter a {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text);
   text-decoration: underline;
 }
 
 .siteFooter a:hover {
-  color: #ffffff;
+  color: color-mix(in oklab, var(--text), var(--accent) 18%);
 }
 
 @media (max-width: 640px) {
@@ -285,60 +357,3 @@
   }
 }
 
-@media (prefers-color-scheme: light) {
-  .header {
-    color: #213547;
-  }
-
-  .muted {
-    color: rgba(33, 53, 71, 0.7);
-  }
-
-  .muted strong {
-    color: rgba(33, 53, 71, 0.92);
-  }
-
-  .subtitle {
-    color: rgba(33, 53, 71, 0.85);
-  }
-
-  .header a {
-    color: rgba(33, 53, 71, 0.92);
-  }
-
-  .header a:hover {
-    color: #213547;
-  }
-
-  .header code {
-    color: rgba(33, 53, 71, 0.92);
-  }
-
-  .table thead th {
-    color: #213547;
-  }
-
-  .chartAxisLabel {
-    fill: rgba(33, 53, 71, 0.75);
-  }
-
-  .chartAxisTitle {
-    fill: rgba(33, 53, 71, 0.9);
-  }
-
-  .chartXLabel {
-    stroke: rgba(255, 255, 255, 0.6);
-  }
-
-  .siteFooter {
-    color: rgba(33, 53, 71, 0.7);
-  }
-
-  .siteFooter a {
-    color: rgba(33, 53, 71, 0.92);
-  }
-
-  .siteFooter a:hover {
-    color: #213547;
-  }
-}
