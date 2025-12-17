@@ -119,6 +119,63 @@
   max-height: 70vh;
 }
 
+.chartWrap {
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 0.75rem;
+  height: 360px;
+}
+
+.chart {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chartGrid {
+  stroke: rgba(127, 127, 127, 0.25);
+  stroke-width: 1;
+}
+
+.chartAxis {
+  stroke: rgba(127, 127, 127, 0.55);
+  stroke-width: 1.5;
+}
+
+.chartAxisLabel {
+  fill: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+}
+
+.chartAxisTitle {
+  fill: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chartXLabel {
+  /* slight extra readability on busy charts */
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 2px;
+}
+
+.chartLine {
+  stroke: #646cff;
+  stroke-width: 2.5;
+}
+
+.chartPoint {
+  fill: #646cff;
+  stroke: rgba(0, 0, 0, 0.25);
+  stroke-width: 1;
+}
+
+.chartPoint:hover {
+  r: 6;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -207,6 +264,21 @@
   border-color: rgba(255, 90, 90, 0.55);
 }
 
+.siteFooter {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.siteFooter a {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: underline;
+}
+
+.siteFooter a:hover {
+  color: #ffffff;
+}
+
 @media (max-width: 640px) {
   .voteStats {
     grid-template-columns: 1fr;
@@ -243,6 +315,30 @@
   }
 
   .table thead th {
+    color: #213547;
+  }
+
+  .chartAxisLabel {
+    fill: rgba(33, 53, 71, 0.75);
+  }
+
+  .chartAxisTitle {
+    fill: rgba(33, 53, 71, 0.9);
+  }
+
+  .chartXLabel {
+    stroke: rgba(255, 255, 255, 0.6);
+  }
+
+  .siteFooter {
+    color: rgba(33, 53, 71, 0.7);
+  }
+
+  .siteFooter a {
+    color: rgba(33, 53, 71, 0.92);
+  }
+
+  .siteFooter a:hover {
     color: #213547;
   }
 }

@@ -20,6 +20,151 @@ const MONTHS = [
 
 const MONTH_TO_NUM = new Map(MONTHS.map((m, i) => [m, i + 1]))
 
+function monthKeyToLabel(monthKey) {
+  const [y, mm] = String(monthKey).split('-')
+  const monthNum = Number(mm)
+  const monthName = MONTHS[monthNum - 1] ?? mm
+  return `${monthName} ${y}`
+}
+
+function LineChart({ rows, valueFormatter, ariaLabel }) {
+  // rows: [{ monthKey, total }]
+  const w = 1000
+  const h = 360
+  const margin = { top: 20, right: 20, bottom: 88, left: 84 }
+  const iw = w - margin.left - margin.right
+  const ih = h - margin.top - margin.bottom
+
+  const points = rows
+    .filter((r) => Number.isFinite(r.total))
+    .map((r) => ({
+      key: r.monthKey,
+      label: monthKeyToLabel(r.monthKey),
+      value: r.total,
+    }))
+
+  const max = points.reduce((m, p) => Math.max(m, p.value), 0)
+  const yMax = max <= 0 ? 1 : max * 1.05
+  const yMin = 0
+
+  const xForIndex = (i) => (points.length <= 1 ? margin.left : margin.left + (i / (points.length - 1)) * iw)
+  const yForValue = (v) => {
+    const t = (v - yMin) / (yMax - yMin)
+    return margin.top + (1 - t) * ih
+  }
+
+  const d =
+    points.length === 0
+      ? ''
+      : points
+          .map((p, i) => {
+            const x = xForIndex(i)
+            const y = yForValue(p.value)
+            return `${i === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`
+          })
+          .join(' ')
+
+  const ticks = 5
+  // Avoid overlapping x labels: estimate how many can fit, then label every N points.
+  // Labels are like "YYYY-MM" (~7 chars). With rotation, we can fit a bit more.
+  const approxLabelPx = 44
+  const maxLabels = Math.max(2, Math.floor(iw / approxLabelPx))
+  const xLabelEvery = Math.max(1, Math.ceil(points.length / maxLabels))
+
+  return (
+    <div className="chartWrap" role="region" aria-label={ariaLabel}>
+      {points.length === 0 ? (
+        <p className="muted">No chart data available for this selection.</p>
+      ) : (
+        <svg className="chart" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
+          {/* grid + y labels */}
+          {Array.from({ length: ticks + 1 }).map((_, i) => {
+            const v = yMin + ((ticks - i) / ticks) * (yMax - yMin)
+            const y = yForValue(v)
+            return (
+              <g key={i}>
+                <line className="chartGrid" x1={margin.left} y1={y} x2={w - margin.right} y2={y} />
+                <text className="chartAxisLabel" x={margin.left - 10} y={y + 4} textAnchor="end">
+                  {valueFormatter.format(v)}
+                </text>
+              </g>
+            )
+          })}
+
+          {/* axis titles */}
+          <text
+            className="chartAxisTitle"
+            x={margin.left + iw / 2}
+            y={h - 10}
+            textAnchor="middle"
+          >
+            Month (YYYY-MM)
+          </text>
+          <text
+            className="chartAxisTitle"
+            x={18}
+            y={margin.top + ih / 2}
+            textAnchor="middle"
+            transform={`rotate(-90 18 ${margin.top + ih / 2})`}
+          >
+            Total overdose deaths
+          </text>
+
+          {/* axes */}
+          <line
+            className="chartAxis"
+            x1={margin.left}
+            y1={margin.top}
+            x2={margin.left}
+            y2={h - margin.bottom}
+          />
+          <line
+            className="chartAxis"
+            x1={margin.left}
+            y1={h - margin.bottom}
+            x2={w - margin.right}
+            y2={h - margin.bottom}
+          />
+
+          {/* line */}
+          <path className="chartLine" d={d} fill="none" />
+
+          {/* points + tooltips */}
+          {points.map((p, i) => {
+            const x = xForIndex(i)
+            const y = yForValue(p.value)
+            return (
+              <circle key={p.key} className="chartPoint" cx={x} cy={y} r={3.5}>
+                <title>
+                  {p.label}: {valueFormatter.format(p.value)}
+                </title>
+              </circle>
+            )
+          })}
+
+          {/* x labels */}
+          {points.map((p, i) => {
+            if (i % xLabelEvery !== 0 && i !== points.length - 1) return null
+            const x = xForIndex(i)
+            const short = p.key // YYYY-MM
+            const y = h - margin.bottom + 30
+            return (
+              <text
+                key={`x-${p.key}`}
+                className="chartAxisLabel chartXLabel"
+                transform={`translate(${x} ${y}) rotate(-45)`}
+                textAnchor="end"
+              >
+                {short}
+              </text>
+            )
+          })}
+        </svg>
+      )}
+    </div>
+  )
+}
+
 function parseCsv(text) {
   const rows = []
   let row = []
@@ -351,39 +496,25 @@ function App() {
             </div>
           </div>
 
-          <div className="tableWrap" role="region" aria-label="Monthly overdose totals table">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Year</th>
-                  <th scope="col">Month</th>
-                  <th scope="col">Total Overdose Deaths</th>
-                </tr>
-              </thead>
-              <tbody>
-                {monthlyRows.map((r) => (
-                  <tr key={r.monthKey}>
-                    <td>{r.year}</td>
-                    <td>{r.monthName}</td>
-                    <td>{numberFormatter.format(r.total)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <LineChart
+            rows={monthlyRows}
+            valueFormatter={numberFormatter}
+            ariaLabel="Monthly overdose totals line chart"
+          />
         </>
       ) : null}
 
       <footer className="card voteCard" aria-label="Voting">
         <div className="voteHeader">
-          <h2 className="voteTitle">Vote</h2>
+          <h2 className="voteTitle">Statement of Intent</h2>
           <div className="muted">
             Total votes ever cast: <strong>{totalVotes}</strong>
           </div>
         </div>
 
         <p className="muted">
-          This data shows overdose deaths. Drugs are bad — that’s why you should vote Mayer for Mayor.
+          This data shows overdose deaths. Drugs are bad — that’s why you should vote Mayer for Mayor. We're gonna get rid of all drugs.
+          Do you agree with me?
         </p>
 
         {voteStatus === 'disabled' ? (
@@ -431,6 +562,12 @@ function App() {
             {isVoting ? 'Voting…' : 'Vote against'}
           </button>
         </div>
+      </footer>
+
+      <footer className="siteFooter" aria-label="Project link">
+        <a href="https://github.com/McChezzy51/unit3quiz-v005-votemayer" target="_blank" rel="noreferrer">
+          View this project on GitHub
+        </a>
       </footer>
     </div>
   )
