@@ -1,42 +1,248 @@
 #root {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 1.5rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: #fff;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.title {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.header a {
+  color: rgba(255, 255, 255, 0.92);
+  text-decoration: underline;
+}
+
+.header a:hover {
+  color: #ffffff;
+}
+
+.header code {
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .card {
-  padding: 2em;
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  border-radius: 12px;
+  padding: 1rem;
 }
 
-.read-the-docs {
-  color: #888;
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.select {
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  background: transparent;
+}
+
+.pager {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 0.5rem 0.75rem;
+}
+
+.muted {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.muted strong {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.error {
+  border-color: rgba(255, 0, 0, 0.35);
+}
+
+.errorTitle {
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+}
+
+.errorText {
+  margin: 0;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  overflow: auto;
+  max-height: 220px;
+}
+
+.tableWrap {
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  border-radius: 12px;
+  overflow: auto;
+  max-height: 70vh;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid rgba(127, 127, 127, 0.2);
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.voteCard {
+  margin-top: 0.5rem;
+}
+
+.voteHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.voteTitle {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.errorNote {
+  margin-top: 0.75rem;
+}
+
+.voteStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.voteStat {
+  border: 1px solid rgba(127, 127, 127, 0.2);
+  border-radius: 12px;
+  padding: 0.75rem;
+}
+
+.voteStatLabel {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.voteStatValue {
+  font-size: 1.6rem;
+  line-height: 1.1;
+  margin-bottom: 0.25rem;
+}
+
+.voteButtons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.9rem;
+}
+
+.voteButton {
+  flex: 1;
+  min-width: 200px;
+}
+
+.voteFor {
+  border-color: rgba(80, 200, 120, 0.55);
+}
+
+.voteAgainst {
+  border-color: rgba(255, 90, 90, 0.55);
+}
+
+@media (max-width: 640px) {
+  .voteStats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .header {
+    color: #213547;
+  }
+
+  .muted {
+    color: rgba(33, 53, 71, 0.7);
+  }
+
+  .muted strong {
+    color: rgba(33, 53, 71, 0.92);
+  }
+
+  .subtitle {
+    color: rgba(33, 53, 71, 0.85);
+  }
+
+  .header a {
+    color: rgba(33, 53, 71, 0.92);
+  }
+
+  .header a:hover {
+    color: #213547;
+  }
+
+  .header code {
+    color: rgba(33, 53, 71, 0.92);
+  }
+
+  .table thead th {
+    color: #213547;
+  }
 }
