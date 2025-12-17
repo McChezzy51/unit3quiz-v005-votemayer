@@ -1,16 +1,25 @@
-# React + Vite
+# unit3quiz-v005-votemayer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small React + Vite site that:
 
-Currently, two official plugins are available:
+- Loads `public/data/overdoseRates.csv` and plots a monthly line chart of **total overdose deaths**
+- Cites the source dataset: [Provisional drug overdose death counts for specific drugs (Data.gov)](https://catalog.data.gov/dataset/provisional-drug-overdose-death-counts-for-specific-drugs)
+- Includes a simple **“Vote Mayer for Mayor”** voting widget (in favor / against) backed by **Firebase Firestore** (optional)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run locally
 
-## React Compiler
+```bash
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Firebase (optional, for voting)
 
-## Expanding the ESLint configuration
+Voting is enabled only when these env vars are set:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `VITE_FIREBASE_API_KEY`
+- `VITE_FIREBASE_AUTH_DOMAIN`
+- `VITE_FIREBASE_PROJECT_ID`
+- `VITE_FIREBASE_APP_ID`
+
+If they’re missing, the chart still works and voting is disabled.
